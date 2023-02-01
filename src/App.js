@@ -1,23 +1,38 @@
 import logo from './logo.svg';
+import {React, useState} from 'react';
+import LoginForm from './components/LoginForm';
 import './App.css';
 
 function App() {
+  const [credentials, setCredentials] = useState({
+    huxley: {
+      password: 's3kr3t'
+    }
+  });
+
+  const checkCredentials = (username, password) => {
+    console.log('checking credentials');
+    const userObj = credentials[username];
+    if (userObj && (userObj.password === password)) {
+      // If we found a user in this.state.credentials 
+      // and the passwords match.
+      return {
+        isValid: true,
+        message: 'Login succesful'
+      }
+    } else {
+      // We couldn't find a user with that username
+      // or the passwords didn't match.
+      return {
+        isValid: false,
+        message: 'Bad username or password'
+    };
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <LoginForm handleSubmit={checkCredentials}/>
     </div>
   );
 }
