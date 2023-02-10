@@ -1,14 +1,11 @@
 import logo from './logo.svg';
 import {React, useState} from 'react';
+import { useSelector } from 'react-redux';
 import LoginForm from './components/LoginForm';
 import './App.css';
 
 function App() {
-  const [credentials, setCredentials] = useState({
-    huxley: {
-      password: 's3kr3t'
-    }
-  });
+  const credentials = useSelector(state => state.login.credentials);
 
   const checkCredentials = (username, password) => {
     console.log('checking credentials');

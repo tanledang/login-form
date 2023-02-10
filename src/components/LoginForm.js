@@ -1,4 +1,6 @@
 import {React, useState} from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+import { setUsername, setPassword, setServerResponse } from '../features/login/loginSlice'
 
 const LoginMessage = ({message, isValid}) => {
     if (message) {
@@ -13,14 +15,15 @@ const LoginMessage = ({message, isValid}) => {
 }
 
 const LoginForm = ({handleSubmit}) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [serverResponse, setServerResponse] = useState(null);
+    const username = useSelector(state => state.login.username)
+    const password = useSelector(state => state.login.password)
+    const serverResponse = useSelector(state => state.login.serverResponse)
+    const dispatch = useDispatch();
 
     const submitForm = event => {
         event.preventDefault();
         const serverResponse = handleSubmit(username, password);
-        setServerResponse(serverResponse)
+        dispatch(setServerResponse(serverResponse))
         console.log(serverResponse);
     }
 
@@ -33,8 +36,8 @@ const LoginForm = ({handleSubmit}) => {
                     type="text"
                     value={username}
                     onChange={(event) => {
-                        setUsername(event.target.value)
-                        setServerResponse(null)
+                        dispatch(setUsername(event.target.value))
+                        dispatch(setServerResponse(null))
                         }}
                 />
             </label>
@@ -45,8 +48,8 @@ const LoginForm = ({handleSubmit}) => {
                     type="password"
                     value={password}
                     onChange={(event) => {
-                        setPassword(event.target.value)
-                        setServerResponse(null)
+                        dispatch(setPassword(event.target.value))
+                        dispatch(setServerResponse(null))
                         }}
                 />
             </label>
